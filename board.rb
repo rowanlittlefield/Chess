@@ -1,5 +1,4 @@
 require "byebug"
-require 'colorize'
 require_relative "piece_types"
 
 class Board
@@ -56,27 +55,6 @@ class Board
     new_grid
   end
   
-  def render
-    (0...grid.length).each do |i|
-      (0...grid[i].length).each do |j|
-        piece = self[[i, j]]
-        p_color = piece.color
-        b_color = (i.even? ? even_pattern(j) : odd_pattern(j))
-        print self[[i, j]].symbol.colorize(color: p_color, background: b_color)
-      end
-      print "\n"
-    end
-  end
-  
-  def even_pattern(col_num)
-    col_num.even? ? :red : :cyan
-  end
-  
-  def odd_pattern(col_num)
-    col_num.odd? ? :red : :cyan
-  end
-  
-  
   def [](pos)
     row,col = pos
     grid[row][col]
@@ -95,6 +73,8 @@ class Board
     piece.pos = end_pos
   end
   
+  private
+  
   def in_bounds?(pos)
     row,col = pos
     (0..7).to_a.include?(row) && (0..7).to_a.include?(col)
@@ -102,8 +82,5 @@ class Board
   
   
 end
-  board = Board.new
-  board.move_piece([1,0],[3,0])
-  # board.move_piece([5,0],[3,0])
-  board.render
+
   
