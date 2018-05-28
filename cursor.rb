@@ -88,7 +88,7 @@ class Cursor
   end
 
   def update_pos(diff)
-      new_pos=[@cursor_pos[0] + diff[0], @cursor_pos[1] + diff[1]]
-      @cursor_pos = new_pos if board.in_bounds?(new_pos)
+    new_pos=[@cursor_pos[0] + diff[0], @cursor_pos[1] + diff[1]]
+    @cursor_pos = new_pos if board.in_bounds?(new_pos)
   end
 end
