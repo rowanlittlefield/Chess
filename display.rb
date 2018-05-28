@@ -11,15 +11,29 @@ class Display
   end
   
   def render
+    system("clear")
     (0...board.grid.length).each do |i|
       (0...board.grid[i].length).each do |j|
         piece = board[[i, j]]
         p_color = piece.color
-        b_color = (i.even? ? even_pattern(j) : odd_pattern(j))
+        if [i, j] == cursor.cursor_pos 
+          b_color = :green
+        else
+          b_color = (i.even? ? even_pattern(j) : odd_pattern(j))
+        end
         print board[[i, j]].symbol.colorize(color: p_color, background: b_color)
       end
       print "\n"
     end
+    puts 
+  end
+  
+  def display_loop
+    while true
+      render
+      cursor.get_input
+    end
+    
   end
   
   private
@@ -35,4 +49,4 @@ end
 
 board = Board.new
 display = Display.new(board)
-display.render
+display.display_loop

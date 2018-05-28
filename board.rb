@@ -73,8 +73,6 @@ class Board
     piece.pos = end_pos
   end
   
-  private
-  
   def in_bounds?(pos)
     row,col = pos
     (0..7).to_a.include?(row) && (0..7).to_a.include?(col)
