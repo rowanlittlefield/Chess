@@ -60,7 +60,7 @@ class Board
     (0...grid.length).each do |i|
       (0...grid[i].length).each do |j|
         piece = self[[i, j]]
-        p_color = (piece.is_a?(NullPiece) ? :red : piece.color)
+        p_color = piece.color
         b_color = (i.even? ? even_pattern(j) : odd_pattern(j))
         print self[[i, j]].symbol.colorize(color: p_color, background: b_color)
       end
@@ -80,16 +80,30 @@ class Board
   def [](pos)
     row,col = pos
     grid[row][col]
-    
   end
   
   def []=(pos,val)
     row,col = pos
     grid[row][col] = val
-    
+  end
+  
+  def move_piece(start_pos, end_pos)
+    raise "invalid move" if self[start_pos].is_a?(NullPiece) || !(in_bounds?(end_pos))
+    piece = self[start_pos]
+    self[end_pos] = piece
+    self[start_pos] = NullPiece.instance
+    piece.pos = end_pos
+  end
+  
+  def in_bounds?(pos)
+    row,col = pos
+    (0..7).to_a.include?(row) && (0..7).to_a.include?(col)
   end
   
   
 end
   board = Board.new
+  board.move_piece([1,0],[3,0])
+  # board.move_piece([5,0],[3,0])
   board.render
+  
