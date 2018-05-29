@@ -23,13 +23,21 @@ class Game
           if end_pos.is_a?(Array) && piece.valid_moves.include?(end_pos)
             @board.move_piece(move,end_pos)
             completed_turn = true
-            @current_player = (@current_player == @player1 ? @player2 : @player1)
+            switch_players
           end
         end
       end
     end
   end
+
+  private
+
+  def switch_players
+    @current_player = (@current_player == @player1 ? @player2 : @player1)
+  end
 end
+
+
 
 game = Game.new
 game.play

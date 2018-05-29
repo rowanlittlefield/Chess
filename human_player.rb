@@ -9,7 +9,7 @@ class HumanPlayer
 
   def make_move
     @display.render
-    print color.to_s
+    print "Current player #{color.to_s}"
     @display.cursor.get_input
   end
 end
