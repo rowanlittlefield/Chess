@@ -50,6 +50,6 @@ end
 board = Board.new
 display = Display.new(board)
 # display.display_loop
-p display.board.move_piece([0, 3], [4, 4])
+p display.board.move_piece([0, 1], [4, 5])
 display.render
-p display.board[[4, 4]].moves
+p display.board[[4, 5]].moves

@@ -18,7 +18,7 @@ module Slideable
       end
     end
 
-    poss_pos + [pos]
+    poss_pos.sort
   end
 
   private
