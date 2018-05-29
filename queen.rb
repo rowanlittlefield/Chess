@@ -5,7 +5,7 @@ class Queen < Piece
   include Slideable
 
   def symbol
-    "Q"
+    "\u2655"
   end
 
   protected
