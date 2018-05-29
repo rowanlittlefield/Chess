@@ -1,15 +1,16 @@
 require_relative 'piece'
+require_relative 'sliding_piece'
 
 class Bishop < Piece
-  # include slideable
-  
+  include Slideable
+
   def symbol
     "B"
   end
-  
+
   protected
-  
-  def move_diffs
-    
+
+  def move_dirs
+    pos_moves = [[-1,-1],[1,-1], [1,1], [-1,1]]
   end
 end
