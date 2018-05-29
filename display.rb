@@ -11,7 +11,7 @@ class Display
   end
 
   def render
-    system("clear")
+    # system("clear")
     puts "\u2618".colorize(color: :green) + "\u2102" + "\u210B" + " " + "\u2107" + "\u222C" + "\u2618".colorize(color: :green)
     (0...board.grid.length).each do |i|
       (0...board.grid[i].length).each do |j|
@@ -48,11 +48,13 @@ class Display
 
 end
 
+
 board = Board.new
 display = Display.new(board)
-# display.display_loop
-display.board.move_piece([7, 7], [4, 7])
-p display.board.move_piece([0, 4], [4, 5])
+board.move_piece([6, 4], [3,3])
+# board.move_piece([7, 3], [6, 4])
+board.move_piece([0, 0], [4, 4])
+
 display.render
-p display.board.in_check?(:black)
-# p String.colors
+ # board[[6, 4]].moves
+p board[[7, 6]].valid_moves

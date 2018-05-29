@@ -84,6 +84,9 @@ class Board
     (0...8).each do |i|
       (0...8).each do |j|
         if grid[i][j].color == oppo_color
+          # byebug if (grid[i][j].moves).include?(king_pos)
+          a = grid[i][j].moves
+          # byebug if (grid[i][j].moves).include?(king_pos)
           return true if (grid[i][j].moves).include?(king_pos)
         end
       end
@@ -101,5 +104,46 @@ class Board
     end
   end
 
+  def render
+    puts "\u2618".colorize(color: :green) + "\u2102" + "\u210B" + " " + "\u2107" + "\u222C" + "\u2618".colorize(color: :green)
+    (0...self.grid.length).each do |i|
+      (0...self.grid[i].length).each do |j|
+        piece = self[[i, j]]
+        p_color = piece.color
+        if [i, j] == [0, 0]
+          b_color = :green
+        else
+          b_color = (i.even? ? even_pattern(j) : odd_pattern(j))
+        end
+        print self[[i, j]].symbol.colorize(color: p_color, background: b_color)
+      end
+      print "\n"
+    end
+    puts
+  end
+
+  def even_pattern(col_num)
+    col_num.even? ? :red : :cyan
+  end
+
+  def odd_pattern(col_num)
+    col_num.odd? ? :red : :cyan
+  end
+
+  def dup
+    dupped_grid = Array.new(8) { Array.new(8) }
+    new_board = Board.new(dupped_grid)
+    (0...8).each do |i|
+      (0...8).each do |j|
+        if self[[i, j]] == NullPiece.instance
+          new_board[[i, j]] = NullPiece.instance
+        else
+          dupped_piece = self[[i, j]].deep_dup(new_board)
+          new_board[[i, j]] = dupped_piece
+        end
+      end
+    end
+    new_board
+  end
 
 end
