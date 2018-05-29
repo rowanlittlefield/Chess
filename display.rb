@@ -51,7 +51,8 @@ end
 board = Board.new
 display = Display.new(board)
 # display.display_loop
-p display.board.move_piece([1, 5], [5, 5])
+display.board.move_piece([7, 7], [4, 7])
+p display.board.move_piece([0, 4], [4, 5])
 display.render
-p display.board[[5, 5]].moves
+p display.board.in_check?(:black)
 # p String.colors
