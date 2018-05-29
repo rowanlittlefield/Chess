@@ -51,10 +51,14 @@ end
 
 board = Board.new
 display = Display.new(board)
-board.move_piece([6, 4], [3,3])
+board.move_piece([6, 5], [4,5])
+board.move_piece([1, 4], [3,4])
+board.move_piece([6, 6], [4,6])
+board.move_piece([0, 3], [4,7])
 # board.move_piece([7, 3], [6, 4])
-board.move_piece([0, 0], [4, 4])
+# board.move_piece([0, 0], [4, 4])
 
 display.render
  # board[[6, 4]].moves
-p board[[7, 6]].valid_moves
+p board.checkmate(:white)
+p board.checkmate(:black)

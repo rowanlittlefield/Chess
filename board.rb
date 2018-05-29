@@ -146,4 +146,16 @@ class Board
     new_board
   end
 
+  def checkmate(color)
+    return false unless in_check?(color)
+    (0...8).each do |i|
+      (0...8).each do |j|
+        if grid[i][j].color == color
+          return false unless grid[i][j].valid_moves.empty?
+        end
+      end
+    end
+    true
+  end
+
 end
