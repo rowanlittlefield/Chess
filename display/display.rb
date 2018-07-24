@@ -20,7 +20,6 @@ class Display
       (0...board.grid[row].length).each do |col|
         transformed_row = (1 - @inversion_coefficient)*row + (@inversion_coefficient*(7 - row))
         transformed_col = (1 - @inversion_coefficient)*col + (@inversion_coefficient*(7 - col))
-        # debugger
         render_position([transformed_row, transformed_col], selected_piece)
       end
       print "\n"

@@ -1,4 +1,4 @@
-require_relative "human_player"
+require_relative "player"
 require_relative "display/display"
 require_relative "display/board"
 
@@ -7,7 +7,7 @@ class Game
   def initialize
     @board = Board.new
     @display = Display.new(@board)
-    @players = [HumanPlayer.new(@display, :white, [7,4]), HumanPlayer.new(@display, :black, [0,4])]
+    @players = [Player.new(@display, :white, [7,4]), Player.new(@display, :black, [0,4])]
   end
 
   def play
