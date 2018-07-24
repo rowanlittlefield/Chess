@@ -10,7 +10,7 @@ class Bishop < Piece
 
   protected
 
-  def move_dirs
+  def move_differentials
     pos_moves = [[-1,-1],[1,-1], [1,1], [-1,1]]
   end
 end

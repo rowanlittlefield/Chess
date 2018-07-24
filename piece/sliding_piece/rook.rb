@@ -10,7 +10,7 @@ class Rook < Piece
 
   protected
 
-  def move_dirs
+  def move_differentials
     pos_moves = [[-1,0],[1,0], [0,1], [0,-1]]
   end
 end

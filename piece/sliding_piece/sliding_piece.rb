@@ -1,26 +1,29 @@
 module Slideable
   def moves
-    dirs = move_dirs
+    differentials = move_differentials
     poss_pos = []
-    dirs.each do |dir|
-      pos_move = [self.pos[0] + dir[0], self.pos[1] + dir[1]]
-      if valid_pos?(pos_move)
-        poss_pos << pos_move
-        next if board[pos_move].color != self.color && board[pos_move] != NullPiece.instance
-      else
-        next
-      end
-      next_move = [pos_move[0] + dir[0], pos_move[1] + dir[1]]
-      while valid_pos?(next_move)
-        poss_pos << next_move if valid_pos?(next_move)
-        break if !(board.in_bounds?(pos_move)) || board[next_move] != NullPiece.instance
-        next_move = [next_move[0] + dir[0], next_move[1] + dir[1]]
-      end
+    differentials.each do |diff|
+      poss_pos += find_moves_in_direction(diff)
     end
-    poss_pos.sort
+    poss_pos
   end
 
   private
+
+  def find_moves_in_direction(diff)
+    pos_move = [self.pos[0] + diff[0], self.pos[1] + diff[1]]
+    return [] unless valid_pos?(pos_move)
+
+    potential_moves = [pos_move]
+    return potential_moves if board[pos_move].color != self.color && board[pos_move] != NullPiece.instance
+
+    loop_condition = true
+    while loop_condition
+      next_move = [potential_moves[-1][0] + diff[0], potential_moves[-1][1] + diff[1]]
+      loop_condition = valid_pos?(next_move) ? (potential_moves << next_move) : (false)
+    end
+    potential_moves
+  end
 
   def valid_pos?(pos_move)
     board.in_bounds?(pos_move) &&
