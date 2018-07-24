@@ -9,7 +9,7 @@ class Display
 
   def initialize(board)
     @board = board
-    @cursor = Cursor.new([0,0],board)
+    @cursor = Cursor.new([7,4],board)
     @inversion_coefficient = 0
   end
 

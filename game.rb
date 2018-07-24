@@ -7,7 +7,7 @@ class Game
   def initialize
     @board = Board.new
     @display = Display.new(@board)
-    @players = [HumanPlayer.new(@display, :white), HumanPlayer.new(@display, :black)]
+    @players = [HumanPlayer.new(@display, :white, [7,4]), HumanPlayer.new(@display, :black, [0,4])]
   end
 
   def play
@@ -60,7 +60,9 @@ class Game
   end
 
   def switch_players
+    current_player.last_position = @display.cursor.cursor_pos.dup
     @players.rotate!
+    @display.cursor.cursor_pos = current_player.last_position.dup
   end
 
   def current_player
