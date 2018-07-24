@@ -51,6 +51,7 @@ class Game
     @board.move_piece(move, player_action)
     deselect_piece
     switch_players
+    @display.invert
   end
 
   def deselect_piece
