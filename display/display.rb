@@ -20,7 +20,7 @@ class Display
       end
       print "\n"
     end
-    puts 
+    puts
   end
 
   private
@@ -40,7 +40,11 @@ class Display
     if pos == cursor.cursor_pos
       b_color = :light_yellow
     elsif selected_piece && selected_piece.moves.include?(pos)
-      b_color = :magenta
+      if pos[0].even?
+        b_color = pos[1].even? ? :light_green : :light_magenta
+      else
+        b_color = pos[1].even? ? :light_magenta : :light_green
+      end
     else
       b_color = (pos[0].even? ? even_pattern(pos[1]) : odd_pattern(pos[1]))
     end

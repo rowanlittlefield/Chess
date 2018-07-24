@@ -1,6 +1,6 @@
 require_relative "human_player"
-require_relative "display"
-require_relative "board"
+require_relative "display/display"
+require_relative "display/board"
 
 class Game
 
@@ -19,7 +19,7 @@ class Game
   def play_turn
     loop_is_over = false
     until loop_is_over
-      move = current_player.make_move
+      move = current_player.action
       if move.is_a?(Array) && current_player.color == @board[move].color
         select_piece(move)
         loop_is_over = move_piece_loop(move)
@@ -35,22 +35,22 @@ class Game
 
   def move_piece_loop(move)
     piece = current_player.selected_piece
-    loop_over = false
-    until loop_over
-      player_action = current_player.make_move
-      if player_action.is_a?(Array) && piece.valid_moves.include?(player_action)
-        @board.move_piece(move,player_action)
-        loop_over = true
-        deselect_piece
-        switch_players
+    while true
+      player_action = current_player.action
+      if player_action.is_a?(Array) && piece.moves.include?(player_action)
+        end_turn(move, player_action)
         return true
       elsif player_action == :back
         deselect_piece
-        loop_over = true
         return false
       end
     end
+  end
 
+  def end_turn(move, player_action)
+    @board.move_piece(move, player_action)
+    deselect_piece
+    switch_players
   end
 
   def deselect_piece

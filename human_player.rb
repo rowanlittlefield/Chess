@@ -1,5 +1,3 @@
-require_relative "cursor"
-
 class HumanPlayer
   attr_reader :color, :cursor
   attr_accessor :selected_piece
@@ -9,7 +7,7 @@ class HumanPlayer
     @selected_piece = nil
   end
 
-  def make_move
+  def action
     @display.render(@selected_piece)
     print "Current player #{color.to_s}"
     @display.cursor.get_input
