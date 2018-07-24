@@ -1,3 +1,4 @@
+require 'byebug'
 require_relative "board"
 require_relative "cursor"
 require 'colorize'
@@ -10,29 +11,39 @@ class Display
     @cursor = Cursor.new([0,0],board)
   end
 
-  def render
+  def render(selected_piece)
     system("clear")
     puts "\u2618".colorize(color: :green) + "\u2102" + "\u210B" + " " + "\u2107" + "\u222C" + "\u2618".colorize(color: :green)
-    (0...board.grid.length).each do |i|
-      (0...board.grid[i].length).each do |j|
-        render_position(i, j)
+    (0...board.grid.length).each do |row|
+      (0...board.grid[row].length).each do |col|
+        render_position(row, col, selected_piece)
       end
       print "\n"
     end
-    puts #String.modes
+    puts String.modes
   end
 
   private
 
-  def render_position(row, col)
+  def render_position(row, col, selected_piece)
     piece = board[[row, col]]
-    p_color = piece.color
-    if [row, col] == cursor.cursor_pos
-      b_color = :light_yellow
+    b_color = select_background_color([row, col], selected_piece)
+
+    if selected_piece == piece
+      print((board[[row, col]].symbol + " ").colorize(color: piece.color, background: b_color).bold.blink)
     else
-      b_color = (row.even? ? even_pattern(col) : odd_pattern(col))
+      print((board[[row, col]].symbol + " ").colorize(color: piece.color, background: b_color).bold)
     end
-    print((board[[row, col]].symbol + " ").colorize(color: p_color, background: b_color, bold: true))
+  end
+
+  def select_background_color(pos, selected_piece)
+    if pos == cursor.cursor_pos
+      b_color = :light_yellow
+    elsif selected_piece && selected_piece.moves.include?(pos)
+      b_color = :magenta
+    else
+      b_color = (pos[0].even? ? even_pattern(pos[1]) : odd_pattern(pos[1]))
+    end
   end
 
   def even_pattern(col_num)

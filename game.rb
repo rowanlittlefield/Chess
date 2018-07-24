@@ -22,6 +22,8 @@ class Game
     move = @current_player.make_move
     if move.is_a?(Array) && @current_player.color == @board[move].color
       piece = @board[move]
+      piece.moves = piece.valid_moves
+      @current_player.selected_piece = piece
       completed_turn = false
       until completed_turn
         end_pos = @current_player.make_move
@@ -35,6 +37,8 @@ class Game
   end
 
   def switch_players
+    @current_player.selected_piece.moves = []
+    @current_player.selected_piece = nil
     @current_player = (@current_player == @player1 ? @player2 : @player1)
   end
 end
