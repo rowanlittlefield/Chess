@@ -1,5 +1,4 @@
-require "byebug"
-require_relative "piece_types"
+require_relative "piece/pieces"
 
 class Board
   attr_reader :grid
@@ -84,9 +83,7 @@ class Board
     (0...8).each do |i|
       (0...8).each do |j|
         if grid[i][j].color == oppo_color
-          # byebug if (grid[i][j].moves).include?(king_pos)
           a = grid[i][j].moves
-          # byebug if (grid[i][j].moves).include?(king_pos)
           return true if (grid[i][j].moves).include?(king_pos)
         end
       end

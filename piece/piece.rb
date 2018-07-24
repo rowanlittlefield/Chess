@@ -16,7 +16,6 @@ class Piece
   def valid_moves
     the_moves = moves
     output = the_moves.reject do |move|
-      # byebug if move == [5,4]
        move_into_check?(move)
     end
     output
@@ -36,7 +35,6 @@ class Piece
 
   private
   def move_into_check?(end_pos)
-    # byebug if end_pos == [6,4]
     board_dup = board.dup
     board_dup.move_piece(pos, end_pos)
     board_dup.in_check?(color)

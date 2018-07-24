@@ -18,15 +18,15 @@ class Display
         piece = board[[i, j]]
         p_color = piece.color
         if [i, j] == cursor.cursor_pos
-          b_color = :green
+          b_color = :light_yellow
         else
           b_color = (i.even? ? even_pattern(j) : odd_pattern(j))
         end
-        print board[[i, j]].symbol.colorize(color: p_color, background: b_color)
+        print((board[[i, j]].symbol + " ").colorize(color: p_color, background: b_color, bold: true))
       end
       print "\n"
     end
-    puts
+    puts #String.modes
   end
 
   def display_loop
@@ -39,26 +39,11 @@ class Display
 
   private
   def even_pattern(col_num)
-    col_num.even? ? :red : :cyan
+    col_num.even? ? :light_red : :light_cyan
   end
 
   def odd_pattern(col_num)
-    col_num.odd? ? :red : :cyan
+    col_num.odd? ? :light_red : :light_cyan
   end
 
 end
-
-
-# board = Board.new
-# display = Display.new(board)
-# board.move_piece([6, 5], [4,5])
-# board.move_piece([1, 4], [3,4])
-# board.move_piece([6, 6], [4,6])
-# board.move_piece([0, 3], [4,7])
-# # board.move_piece([7, 3], [6, 4])
-# # board.move_piece([0, 0], [4, 4])
-#
-# display.render
-#  # board[[6, 4]].moves
-# p board.checkmate(:white)
-# p board.checkmate(:black)
