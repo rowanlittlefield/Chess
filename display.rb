@@ -13,14 +13,14 @@ class Display
 
   def render(selected_piece)
     system("clear")
-    puts "\u2618".colorize(color: :green) + "\u2102" + "\u210B" + " " + "\u2107" + "\u222C" + "\u2618".colorize(color: :green)
+    puts
     (0...board.grid.length).each do |row|
       (0...board.grid[row].length).each do |col|
         render_position(row, col, selected_piece)
       end
       print "\n"
     end
-    puts String.modes
+    puts 
   end
 
   private

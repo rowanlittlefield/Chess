@@ -7,13 +7,11 @@ class Game
   def initialize
     @board = Board.new
     @display = Display.new(@board)
-    @player1 = HumanPlayer.new(@display, :white)
-    @player2 = HumanPlayer.new(@display, :black)
-    @current_player = @player1
+    @players = [HumanPlayer.new(@display, :white), HumanPlayer.new(@display, :black)]
   end
 
   def play
-    play_turn until @board.checkmate(@current_player.color)
+    play_turn until @board.checkmate(current_player.color)
   end
 
   private
@@ -21,8 +19,8 @@ class Game
   def play_turn
     loop_is_over = false
     until loop_is_over
-      move = @current_player.make_move
-      if move.is_a?(Array) && @current_player.color == @board[move].color
+      move = current_player.make_move
+      if move.is_a?(Array) && current_player.color == @board[move].color
         select_piece(move)
         loop_is_over = move_piece_loop(move)
       end
@@ -32,14 +30,14 @@ class Game
   def select_piece(move)
     piece = @board[move]
     piece.moves = piece.valid_moves
-    @current_player.selected_piece = piece
+    current_player.selected_piece = piece
   end
 
   def move_piece_loop(move)
-    piece = @current_player.selected_piece
+    piece = current_player.selected_piece
     loop_over = false
     until loop_over
-      player_action = @current_player.make_move
+      player_action = current_player.make_move
       if player_action.is_a?(Array) && piece.valid_moves.include?(player_action)
         @board.move_piece(move,player_action)
         loop_over = true
@@ -56,12 +54,16 @@ class Game
   end
 
   def deselect_piece
-    @current_player.selected_piece.moves = []
-    @current_player.selected_piece = nil
+    current_player.selected_piece.moves = []
+    current_player.selected_piece = nil
   end
 
   def switch_players
-    @current_player = (@current_player == @player1 ? @player2 : @player1)
+    @players.rotate!
+  end
+
+  def current_player
+    @players[0]
   end
 end
 
