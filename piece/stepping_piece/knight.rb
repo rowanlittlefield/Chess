@@ -10,7 +10,7 @@ class Knight < Piece
 
   protected
 
-  def move_diffs
+  def move_differentials
     [[-2, -1], [-2, 1], [-1, 2], [1, 2], [2, 1], [2, -1], [1, -2], [-1, -2]]
   end
 end

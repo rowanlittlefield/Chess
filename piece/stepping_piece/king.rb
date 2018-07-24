@@ -11,7 +11,7 @@ class King < Piece
 
   protected
 
-  def move_diffs
+  def move_differentials
       [[-1,-1],[1,-1], [1,1], [-1,1],[-1,0],[1,0], [0,1], [0,-1]]
   end
 end

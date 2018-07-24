@@ -20,7 +20,8 @@ module Slideable
     loop_condition = true
     while loop_condition
       next_move = [potential_moves[-1][0] + diff[0], potential_moves[-1][1] + diff[1]]
-      loop_condition = valid_pos?(next_move) ? (potential_moves << next_move) : (false)
+      potential_moves << next_move if valid_pos?(next_move)
+      loop_condition = board.in_bounds?(next_move) && board[next_move].is_a?(NullPiece)
     end
     potential_moves
   end
