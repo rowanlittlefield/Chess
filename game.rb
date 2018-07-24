@@ -7,20 +7,25 @@ class Game
   def initialize
     @board = Board.new
     @display = Display.new(@board)
-    @players = [Player.new(@display, :white, [7,4]), Player.new(@display, :black, [0,4])]
+    @players = [
+      Player.new(display, :white),
+      Player.new(display, :black)
+    ]
   end
 
   def play
-    play_turn until @board.checkmate(current_player.color)
+    play_turn until board.checkmate(current_player.color)
   end
 
   private
+
+  attr_reader :board, :display, :players
 
   def play_turn
     loop_is_over = false
     until loop_is_over
       move = current_player.action
-      if move.is_a?(Array) && current_player.color == @board[move].color
+      if move.is_a?(Array) && current_player.color == board[move].color
         select_piece(move)
         loop_is_over = move_piece_loop(move)
       end
@@ -28,7 +33,7 @@ class Game
   end
 
   def select_piece(move)
-    piece = @board[move]
+    piece = board[move]
     piece.moves = piece.valid_moves
     current_player.selected_piece = piece
   end
@@ -48,10 +53,10 @@ class Game
   end
 
   def end_turn(move, player_action)
-    @board.move_piece(move, player_action)
+    board.move_piece(move, player_action)
     deselect_piece
     switch_players
-    @display.invert
+    display.invert
   end
 
   def deselect_piece
@@ -60,13 +65,13 @@ class Game
   end
 
   def switch_players
-    current_player.last_position = @display.cursor.cursor_pos.dup
-    @players.rotate!
-    @display.cursor.cursor_pos = current_player.last_position.dup
+    current_player.last_position = display.cursor.cursor_pos.dup
+    players.rotate!
+    display.cursor.cursor_pos = current_player.last_position.dup
   end
 
   def current_player
-    @players[0]
+    players[0]
   end
 end
 

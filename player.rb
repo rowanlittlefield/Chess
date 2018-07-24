@@ -1,11 +1,11 @@
 class Player
   attr_reader :color, :cursor
   attr_accessor :selected_piece, :last_position
-  def initialize(display, color, last_position)
+  def initialize(display, color)
     @display = display
     @color = color
     @selected_piece = nil
-    @last_position = last_position
+    @last_position = color == :white ? [7, 4] : [0, 4]
   end
 
   def action
