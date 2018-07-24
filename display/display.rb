@@ -48,7 +48,7 @@ class Display
   def select_background_color(pos, selected_piece)
     if pos == cursor.cursor_pos
       b_color = :light_yellow
-    elsif selected_piece && selected_piece.moves.include?(pos)
+    elsif selected_piece && selected_piece.current_moves.include?(pos)
       if pos[0].even?
         b_color = pos[1].even? ? :light_green : :light_magenta
       else

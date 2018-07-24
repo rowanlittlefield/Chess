@@ -15,6 +15,7 @@ class Game
 
   def play
     play_turn until board.checkmate(current_player.color)
+    game_over_message
   end
 
   private
@@ -23,7 +24,7 @@ class Game
 
   def play_turn
     loop_is_over = false
-    until loop_is_over
+    until loop_is_over || board.checkmate(current_player.color) || board.checkmate(@players[1].color)
       move = current_player.action
       if move.is_a?(Array) && current_player.color == board[move].color
         select_piece(move)
@@ -34,7 +35,7 @@ class Game
 
   def select_piece(move)
     piece = board[move]
-    piece.moves = piece.valid_moves
+    piece.current_moves = piece.valid_moves
     current_player.selected_piece = piece
   end
 
@@ -42,7 +43,7 @@ class Game
     piece = current_player.selected_piece
     while true
       player_action = current_player.action
-      if player_action.is_a?(Array) && piece.moves.include?(player_action)
+      if player_action.is_a?(Array) && piece.current_moves.include?(player_action)
         end_turn(move, player_action)
         return true
       elsif player_action == :back
@@ -60,7 +61,7 @@ class Game
   end
 
   def deselect_piece
-    current_player.selected_piece.moves = []
+    current_player.selected_piece.current_moves = []
     current_player.selected_piece = nil
   end
 
@@ -72,6 +73,12 @@ class Game
 
   def current_player
     players[0]
+  end
+
+  def game_over_message
+    switch_players
+    display.render(board[current_player.last_position])
+    puts "#{current_player.color} wins!!"
   end
 end
 
