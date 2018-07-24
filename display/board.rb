@@ -4,8 +4,7 @@ class Board
   attr_reader :grid
 
   def initialize(grid = nil)
-    grid ||= setup_grid
-    @grid = grid
+    @grid = grid ? grid : setup_grid
   end
 
   def move_piece(start_pos, end_pos)
@@ -17,22 +16,17 @@ class Board
   end
 
   def in_bounds?(pos)
-    row,col = pos
+    row, col = pos
     (0..7).to_a.include?(row) && (0..7).to_a.include?(col)
   end
 
   def in_check?(color)
     king_pos = find_king(color)
     oppo_color = (color == :white ? :black : :white)
-    (0...8).each do |i|
-      (0...8).each do |j|
-        if grid[i][j].color == oppo_color
-          a = grid[i][j].moves
-          return true if (grid[i][j].moves).include?(king_pos)
-        end
-      end
+
+    (0...8).any? do |i|
+      (0...8).any? { |j| check_condition(oppo_color, [i, j], king_pos) }
     end
-    false
   end
 
   def find_king(color)
@@ -48,16 +42,11 @@ class Board
   def dup
     dupped_grid = Array.new(8) { Array.new(8) }
     new_board = Board.new(dupped_grid)
+
     (0...8).each do |i|
-      (0...8).each do |j|
-        if self[[i, j]] == NullPiece.instance
-          new_board[[i, j]] = NullPiece.instance
-        else
-          dupped_piece = self[[i, j]].deep_dup(new_board)
-          new_board[[i, j]] = dupped_piece
-        end
-      end
+      (0...8).each { |j| dup_position(new_board, [i, j]) }
     end
+
     new_board
   end
 
@@ -71,6 +60,7 @@ class Board
       end
     end
     true
+
   end
 
   def [](pos)
@@ -139,6 +129,19 @@ class Board
     new_grid[7][4] = King.new(:white, self, [7,4])
     new_grid[0][3] = Queen.new(:black, self, [0,3])
     new_grid[7][3] = Queen.new(:white, self, [7,3])
+  end
+
+  def check_condition(oppo_color, pos, king_pos)
+    self[pos].color == oppo_color && (self[pos].moves).include?(king_pos)
+  end
+
+  def dup_position(new_board, pos)
+    if self[pos] == NullPiece.instance
+      new_board[pos] = NullPiece.instance
+    else
+      dupped_piece = self[pos].deep_dup(new_board)
+      new_board[pos] = dupped_piece
+    end
   end
 
 end
