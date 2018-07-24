@@ -10,6 +10,7 @@ KEYMAP = {
   "a" => :left,
   "s" => :down,
   "d" => :right,
+  "b" => :back,
   "\t" => :tab,
   "\r" => :return,
   "\n" => :newline,
@@ -82,6 +83,8 @@ class Cursor
     when :up, :down, :right, :left
       update_pos(MOVES[key])
       return nil
+    when :back
+      return :back
     when :ctrl_c
       Process.exit
     end
