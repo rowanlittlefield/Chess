@@ -10,9 +10,12 @@ class Board
   def move_piece(start_pos, end_pos)
     raise "invalid move" if self[start_pos].is_a?(NullPiece) || !(in_bounds?(end_pos))
     piece = self[start_pos]
+    is_castle_move = piece.is_a?(King) && piece.castling_moves.include?(end_pos)
     self[end_pos] = piece
     self[start_pos] = NullPiece.instance
+    piece.has_moved = true
     piece.pos = end_pos
+    rook_castle_move(end_pos) if is_castle_move
   end
 
   def in_bounds?(pos)
@@ -141,6 +144,18 @@ class Board
     else
       dupped_piece = self[pos].deep_dup(new_board)
       new_board[pos] = dupped_piece
+    end
+  end
+
+  def rook_castle_move(end_pos)
+    if end_pos == [7, 6]
+      move_piece([7, 7], [7, 5])
+    elsif end_pos == [7, 2]
+      move_piece([7, 0], [7, 3])
+    elsif end_pos == [0, 6]
+      move_piece([0, 7], [0, 5])
+    elsif end_pos == [0, 2]
+      move_piece([0, 0], [0, 3])
     end
   end
 

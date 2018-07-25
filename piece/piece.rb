@@ -1,12 +1,13 @@
 require 'byebug'
 class Piece
   attr_reader :color, :board
-  attr_accessor :current_moves, :pos
+  attr_accessor :current_moves, :pos, :has_moved
   def initialize(color,board,pos)
     @color = color
     @board = board
     @pos = pos
     @current_moves = []
+    @has_moved = false
   end
 
   def valid_moves
